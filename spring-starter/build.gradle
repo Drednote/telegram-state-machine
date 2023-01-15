@@ -1,0 +1,50 @@
+plugins {
+    id 'org.springframework.boot' version '3.0.1'
+    id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+}
+
+archivesBaseName = 'telegram-state-machine'
+group = parent.group
+version = parent.version
+
+bootJar.enabled = false
+
+dependencies {
+    // import module api
+    implementation(project((parent.parent != null ? ":" + parent.name : "") + ":core")) {
+    }
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+
+    // data
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation "org.postgresql:postgresql:42.5.1"
+
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation "org.testcontainers:postgresql:1.17.6"
+    testImplementation "org.testcontainers:testcontainers:1.17.6"
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+
+            groupId group
+            artifactId archivesBaseName
+            version System.getProperty("generatedVersion") ?: "master-SNAPSHOT"
+
+            from components.java
+            artifact sourceJar {
+                classifier "sources"
+            }
+        }
+    }
+}

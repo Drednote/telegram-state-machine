@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.github.drednote.telegramstatemachine.springstarter.TelegramStateMachineAutoConfiguration, \
+com.github.drednote.telegramstatemachine.springstarter.jpa.config.TelegramStateMachinePersisterAutoConfiguration
+

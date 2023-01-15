@@ -1,7 +1,5 @@
 plugins {
-    id 'java-library'
     id 'java'
-    id 'maven-publish'
 }
 
 group = 'com.github.drednote'
@@ -14,83 +12,64 @@ configurations {
     }
 }
 
-ext {
-    nexusRepo = System.getProperty("NEXUS_REPO") ?: NEXUS_REPO
-    nexusRepoSnap = System.getProperty("NEXUS_REPO_SNAPSHOTS") ?: NEXUS_REPO_SNAPSHOTS
-    nexusUser = System.getProperty("NEXUS_USER") ?: NEXUS_USER
-    nexusPassword = System.getProperty("NEXUS_PASSWORD") ?: NEXUS_PASSWORD
-}
+subprojects {
+    apply plugin: 'maven-publish'
+    apply plugin: 'java-library'
+    apply plugin: 'java'
 
-repositories {
-    mavenCentral()
-    maven {
-        name "nexus"
-        url nexusRepo
-        allowInsecureProtocol true
-        credentials {
-            username nexusUser
-            password nexusPassword
-        }
+    // можно запустить для проверки какие пакеты подтянулись в classpath
+    task printAllDependencies(type: DependencyReportTask) {}
+
+    ext {
+        nexusRepo = System.getProperty("NEXUS_REPO") ?: NEXUS_REPO
+        nexusRepoSnap = System.getProperty("NEXUS_REPO_SNAPSHOTS") ?: NEXUS_REPO_SNAPSHOTS
+        nexusUser = System.getProperty("NEXUS_USER") ?: NEXUS_USER
+        nexusPassword = System.getProperty("NEXUS_PASSWORD") ?: NEXUS_PASSWORD
     }
-    maven {
-        name "nexus-snap"
-        url nexusRepoSnap
-        allowInsecureProtocol true
-        credentials {
-            username nexusUser
-            password nexusPassword
-        }
-    }
-}
 
-dependencies {
-    api 'org.telegram:telegrambots:6.3.0'
-
-    implementation 'org.slf4j:slf4j-api:2.0.6'
-    implementation 'ch.qos.logback:logback-classic:1.4.5'
-
-    compileOnly 'org.projectlombok:lombok:1.18.24'
-    annotationProcessor 'org.projectlombok:lombok:1.18.24'
-
-    testCompileOnly 'org.projectlombok:lombok:1.18.24'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
-    testImplementation 'org.assertj:assertj-core:3.23.1'
-}
-
-test {
-    testLogging {
-        events "PASSED", "STARTED", "FAILED", "SKIPPED"
-    }
-    useJUnitPlatform()
-    include("**/*Test.class")
-}
-
-task sourceJar(type: Jar) {
-    from sourceSets.main.allJava
-}
-
-publishing {
     repositories {
+        mavenCentral()
         maven {
-            url System.getProperty("NEXUS_UPLOAD_REPO") ?: NEXUS_UPLOAD_REPO
+            name "nexus"
+            url nexusRepo
             allowInsecureProtocol true
             credentials {
-                username System.getProperty("NEXUS_USER") ?: NEXUS_USER
-                password System.getProperty("NEXUS_PASSWORD") ?: NEXUS_PASSWORD
+                username nexusUser
+                password nexusPassword
+            }
+        }
+        maven {
+            name "nexus-snap"
+            url nexusRepoSnap
+            allowInsecureProtocol true
+            credentials {
+                username nexusUser
+                password nexusPassword
             }
         }
     }
-    publications {
-        mavenJava(MavenPublication) {
 
-            groupId group
-            artifactId archivesBaseName
-            version System.getProperty("generatedVersion") ?: "master-SNAPSHOT"
+    test {
+        testLogging {
+            events "PASSED", "STARTED", "FAILED", "SKIPPED"
+        }
+        useJUnitPlatform()
+        include("**/*Test.class")
+    }
 
-            from components.java
-            artifact sourceJar {
-                classifier "sources"
+    tasks.register('sourceJar', Jar) {
+        from sourceSets.main.allJava
+    }
+
+    publishing {
+        repositories {
+            maven {
+                url System.getProperty("NEXUS_UPLOAD_REPO") ?: NEXUS_UPLOAD_REPO
+                allowInsecureProtocol true
+                credentials {
+                    username System.getProperty("NEXUS_USER") ?: NEXUS_USER
+                    password System.getProperty("NEXUS_PASSWORD") ?: NEXUS_PASSWORD
+                }
             }
         }
     }

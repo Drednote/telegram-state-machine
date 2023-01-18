@@ -16,3 +16,19 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testImplementation 'org.assertj:assertj-core:3.23.1'
 }
+
+//publishing {
+//    publications {
+//        mavenJava(MavenPublication) {
+//
+//            groupId group
+//            artifactId archivesBaseName
+//            version System.getProperty("generatedVersion") ?: "master-SNAPSHOT"
+//
+//            from components.java
+//            artifact sourceJar {
+//                classifier "sources"
+//            }
+//        }
+//    }
+//}

@@ -1,25 +1,26 @@
 package com.github.drednote.telegramstatemachine.springstarter.jpa;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.github.drednote.telegramstatemachine.core.DefaultTelegramStateMachine;
 import com.github.drednote.telegramstatemachine.core.TelegramStateMachine;
-import com.github.drednote.telegramstatemachine.persist.TelegramStateMachinePersister;
+import com.github.drednote.telegramstatemachine.core.persist.TelegramStateMachinePersister;
 import com.github.drednote.telegramstatemachine.springstarter.jpa.model.JpaTelegramStateMachine;
-import com.github.drednote.telegramstatemachine.springstarter.jpa.repository.TelegramStateMachineRepository;
-import com.github.drednote.telegramstatemachine.springstarter.jpa.serializer.StringGenericSerializer;
+import com.github.drednote.telegramstatemachine.springstarter.jpa.repository.JpaTelegramStateMachineRepository;
+import com.github.drednote.telegramstatemachine.springstarter.jpa.service.TelegramStateMachineSerializationService;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 
 @RequiredArgsConstructor
 public class PostgresTelegramStateMachinePersister<S> implements TelegramStateMachinePersister<S> {
 
-  private final TelegramStateMachineRepository repository;
-  private final StringGenericSerializer<S> serializer = new StringGenericSerializer<>();
+  private final JpaTelegramStateMachineRepository repository;
+  private final TelegramStateMachineSerializationService<S> serializationService = new TelegramStateMachineSerializationService<>();
 
+  @SneakyThrows
   @Override
   public TelegramStateMachine<S> persist(TelegramStateMachine<S> stateMachine) {
     JpaTelegramStateMachine jpaTelegramStateMachine = new JpaTelegramStateMachine();
     jpaTelegramStateMachine.setId(stateMachine.getId());
-    jpaTelegramStateMachine.setState(serializer.serialize(stateMachine.getState()));
+    jpaTelegramStateMachine.setState(stateMachine.getState().toString());
+    jpaTelegramStateMachine.setContext(serializationService.serialize(stateMachine));
     return build(repository.save(jpaTelegramStateMachine));
   }
 
@@ -37,7 +38,6 @@ public class PostgresTelegramStateMachinePersister<S> implements TelegramStateMa
   }
 
   private TelegramStateMachine<S> build(JpaTelegramStateMachine jpa) {
-    S state = serializer.deserialize(jpa.getState(), new TypeReference<>() {});
-    return new DefaultTelegramStateMachine<>(jpa.getId(), state, null);
+    return serializationService.deserialize(jpa.getContext());
   }
 }

@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id 'java-library'
 }
 
 group = 'com.github.drednote'
@@ -15,12 +15,13 @@ configurations {
 subprojects {
     apply plugin: 'maven-publish'
     apply plugin: 'java-library'
-    apply plugin: 'java'
 
     // можно запустить для проверки какие пакеты подтянулись в classpath
-    task printAllDependencies(type: DependencyReportTask) {}
+    tasks.register("printAllDependencies", DependencyReportTask) {}
 
     ext {
+        defaultEncoding = 'UTF-8'
+
         nexusRepo = System.getProperty("NEXUS_REPO") ?: NEXUS_REPO
         nexusRepoSnap = System.getProperty("NEXUS_REPO_SNAPSHOTS") ?: NEXUS_REPO_SNAPSHOTS
         nexusUser = System.getProperty("NEXUS_USER") ?: NEXUS_USER

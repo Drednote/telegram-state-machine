@@ -1,10 +1,8 @@
 package com.github.drednote.telegramstatemachine.core;
 
 import com.github.drednote.telegramstatemachine.api.TelegramStateMachineAdapter;
-import com.github.drednote.telegramstatemachine.exception.InternalTransitionException;
-import com.github.drednote.telegramstatemachine.exception.TransitionException;
-import com.github.drednote.telegramstatemachine.monitor.TelegramStateMachineMonitor;
-import com.github.drednote.telegramstatemachine.persist.TelegramStateMachinePersister;
+import com.github.drednote.telegramstatemachine.exception.transition.InternalTransitionException;
+import com.github.drednote.telegramstatemachine.exception.transition.TransitionException;
 import com.github.drednote.telegramstatemachine.util.UpdateUtils;
 import com.github.drednote.telegramstatemachine.util.lock.ReadWriteKeyLock;
 import java.util.concurrent.TimeoutException;
@@ -19,9 +17,9 @@ public class ConcurrentTelegramStateMachineService<S> extends
   private final long timeout;
 
   public ConcurrentTelegramStateMachineService(
-      TelegramStateMachineAdapter<S> adapter, TelegramStateMachinePersister<S> persister,
-      TelegramStateMachineMonitor<S> monitor, Long timeout) {
-    super(adapter, persister, monitor);
+      TelegramStateMachineAdapter<S> adapter, Long timeout
+  ) {
+    super(adapter);
     this.timeout = timeout == null ? 0L : timeout;
   }
 

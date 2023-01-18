@@ -1,6 +1,7 @@
 package com.github.drednote.telegramstatemachine.core;
 
-import com.github.drednote.telegramstatemachine.exception.TransitionException;
+import com.github.drednote.telegramstatemachine.exception.transition.TransitionException;
+import javax.annotation.Nullable;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 public interface TelegramStateMachineService<S> {
@@ -10,6 +11,7 @@ public interface TelegramStateMachineService<S> {
   /**
    * Doesn't affect on persisted statemachine
    */
+  @Nullable
   TelegramStateMachine<S> prepare(Update update) throws TransitionException;
 
   boolean transit(Update update);

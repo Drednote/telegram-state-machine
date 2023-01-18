@@ -1,6 +1,6 @@
 package com.github.drednote.telegramstatemachine.core;
 
-import com.github.drednote.telegramstatemachine.api.transition.Transition;
+import com.github.drednote.telegramstatemachine.core.transition.Transition;
 
 public interface TelegramStateMachine<S> {
 

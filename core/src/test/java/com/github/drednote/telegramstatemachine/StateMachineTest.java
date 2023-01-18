@@ -7,9 +7,7 @@ import com.github.drednote.telegramstatemachine.config.TestTelegramStateMachineA
 import com.github.drednote.telegramstatemachine.core.ConcurrentTelegramStateMachineService;
 import com.github.drednote.telegramstatemachine.core.TelegramStateMachine;
 import com.github.drednote.telegramstatemachine.core.TelegramStateMachineService;
-import com.github.drednote.telegramstatemachine.exception.TransitionException;
-import com.github.drednote.telegramstatemachine.monitor.DefaultTelegramStateMachineMonitor;
-import com.github.drednote.telegramstatemachine.persist.InMemoryTelegramStateMachinePersister;
+import com.github.drednote.telegramstatemachine.exception.transition.TransitionException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -25,8 +23,6 @@ class StateMachineTest {
 
   final TelegramStateMachineService<String> service = new ConcurrentTelegramStateMachineService<>(
       new TestTelegramStateMachineAdapter(),
-      new InMemoryTelegramStateMachinePersister<>(),
-      new DefaultTelegramStateMachineMonitor<>(),
       TimeUnit.SECONDS.toMillis(2));
 
   @Test

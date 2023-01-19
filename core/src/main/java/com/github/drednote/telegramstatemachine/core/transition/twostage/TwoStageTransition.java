@@ -1,6 +1,6 @@
 package com.github.drednote.telegramstatemachine.core.transition.twostage;
 
-import com.github.drednote.telegramstatemachine.core.UpdateTelegramHandler;
+import com.github.drednote.telegramstatemachine.api.UpdateTelegramHandler;
 import com.github.drednote.telegramstatemachine.core.error.ErrorTelegramHandler;
 import com.github.drednote.telegramstatemachine.core.transition.AbstractTransition;
 import com.github.drednote.telegramstatemachine.matcher.Matcher;

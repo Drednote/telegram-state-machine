@@ -1,6 +1,8 @@
 package com.github.drednote.telegramstatemachine.core.transition;
 
 import com.github.drednote.telegramstatemachine.core.error.ErrorTelegramHandler;
+import com.github.drednote.telegramstatemachine.core.transition.multistage.MultiStageTelegramStateMachineConfigurer;
+import com.github.drednote.telegramstatemachine.core.transition.multistage.MultiStageTelegramStateMachineConfigurerImpl;
 import com.github.drednote.telegramstatemachine.core.transition.simple.SimpleTelegramStateMachineConfigurer;
 import com.github.drednote.telegramstatemachine.core.transition.simple.SimpleTelegramStateMachineConfigurerImpl;
 import com.github.drednote.telegramstatemachine.core.transition.twostage.TwoStageTelegramStateMachineConfigurer;
@@ -13,22 +15,27 @@ public class TelegramTransitionsStateMachineConfigurerImpl<S> implements
 
   @Getter
   private final Collection<Transition<S>> transitions;
-  private final ErrorTelegramHandler handler;
+  private final ErrorTelegramHandler errorHandler;
 
   public TelegramTransitionsStateMachineConfigurerImpl(
       Collection<Transition<S>> transitions, ErrorTelegramHandler handler
   ) {
     this.transitions = transitions;
-    this.handler = handler;
+    this.errorHandler = handler;
   }
 
   @Override
   public SimpleTelegramStateMachineConfigurer<S> withSimple() {
-    return new SimpleTelegramStateMachineConfigurerImpl<>(transitions, handler);
+    return new SimpleTelegramStateMachineConfigurerImpl<>(transitions, errorHandler);
   }
 
   @Override
   public TwoStageTelegramStateMachineConfigurer<S> withTwoStage() {
-    return new TwoStageTelegramStateMachineConfigurerImpl<>(transitions, handler);
+    return new TwoStageTelegramStateMachineConfigurerImpl<>(transitions, errorHandler);
+  }
+
+  @Override
+  public MultiStageTelegramStateMachineConfigurer<S> withMultiStage() {
+    return new MultiStageTelegramStateMachineConfigurerImpl<>(transitions, errorHandler);
   }
 }

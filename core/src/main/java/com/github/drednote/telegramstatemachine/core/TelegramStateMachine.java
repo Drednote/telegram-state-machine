@@ -11,4 +11,6 @@ public interface TelegramStateMachine<S> {
   Transition<S> getNext();
 
   boolean isPrepared();
+
+  int getStage();
 }

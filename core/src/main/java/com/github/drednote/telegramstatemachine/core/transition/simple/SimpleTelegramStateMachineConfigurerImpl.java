@@ -1,11 +1,12 @@
 package com.github.drednote.telegramstatemachine.core.transition.simple;
 
-import com.github.drednote.telegramstatemachine.core.UpdateTelegramHandler;
+import com.github.drednote.telegramstatemachine.api.UpdateTelegramHandler;
 import com.github.drednote.telegramstatemachine.core.error.ErrorTelegramHandler;
 import com.github.drednote.telegramstatemachine.core.transition.TelegramTransitionsStateMachineConfigurerImpl;
 import com.github.drednote.telegramstatemachine.core.transition.TelegramTransitionsStateMachineConfigurer;
 import com.github.drednote.telegramstatemachine.core.transition.Transition;
 import com.github.drednote.telegramstatemachine.matcher.Matcher;
+import com.github.drednote.telegramstatemachine.util.Assert;
 import java.util.Collection;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -63,6 +64,12 @@ public class SimpleTelegramStateMachineConfigurerImpl<S> implements
 
   @Override
   public TelegramTransitionsStateMachineConfigurer<S> and() {
+    Assert.notNull(source, "'source' must be set");
+    Assert.notNull(target, "'target' must be set");
+    Assert.notNull(handler, "'handler' must be set");
+    Assert.notNull(errorHandler, "'errorHandler' must be set");
+    Assert.notNull(matcher, "'matcher' must be set");
+
     transitions.add(new SimpleTransition<>(source, target, handler, errorHandler, matcher));
     return new TelegramTransitionsStateMachineConfigurerImpl<>(transitions, defaultErrorHandler);
   }

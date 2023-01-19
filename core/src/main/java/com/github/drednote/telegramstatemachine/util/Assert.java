@@ -7,4 +7,16 @@ public interface Assert {
       throw new IllegalArgumentException(text);
     }
   }
+
+  static void positive(Number number, String text) {
+    if (number.intValue() <= 0) {
+      throw new IllegalArgumentException(text);
+    }
+  }
+
+  static void moreThan(Number number, int value, String text) {
+    if (number.intValue() <= value) {
+      throw new IllegalArgumentException(text);
+    }
+  }
 }

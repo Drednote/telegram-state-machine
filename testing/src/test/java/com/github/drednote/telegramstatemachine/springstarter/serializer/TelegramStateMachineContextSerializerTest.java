@@ -14,11 +14,12 @@ class TelegramStateMachineContextSerializerTest {
 
   @Test
   void name() throws IOException {
-    byte[] serialize = serializer.serialize(new DefaultTelegramStateMachine<>("1", State.I, null));
+    byte[] serialize = serializer.serialize(new DefaultTelegramStateMachine<>("1", State.I, null, -1));
     TelegramStateMachine<State> deserialize = serializer.deserialize(serialize);
     assertThat(serialize).isNotEmpty();
     assertThat(deserialize.getState()).isEqualTo(State.I);
     assertThat(deserialize.getId()).isEqualTo("1");
+    assertThat(deserialize.getStage()).isEqualTo(-1);
   }
 
   private enum State {

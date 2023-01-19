@@ -29,7 +29,7 @@ public class PostgresTelegramStateMachinePersister<S> implements TelegramStateMa
     return repository.findById(id)
         .map(this::build)
         .orElseThrow(
-            () -> new IllegalArgumentException("State machine with id %s not found".formatted(id)));
+            () -> new IllegalArgumentException("State getMachine with id %s not found".formatted(id)));
   }
 
   @Override

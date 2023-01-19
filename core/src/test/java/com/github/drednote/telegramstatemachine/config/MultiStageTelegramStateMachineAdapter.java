@@ -6,19 +6,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
 @Slf4j
-public class TestTelegramStateMachineAdapter implements TelegramStateMachineAdapter<String> {
+public class MultiStageTelegramStateMachineAdapter implements TelegramStateMachineAdapter<String> {
 
   @Override
   public void onTransitions(TelegramTransitionsStateMachineConfigurer<String> configurer) {
     configurer.withSimple()
+        .handler(Mock.emptyAndLog())
+        .matcher(update -> update.getMessage().isCommand())
         .source("1").target("2")
-        .handler(Mock.emptyAndLog())
-        .matcher(update -> update.getMessage().isCommand())
 
-        .and().withSimple()
-        .source("2").target("3")
+        .and().withMultiStage()
         .handler(Mock.emptyAndLog())
         .matcher(update -> update.getMessage().isCommand())
+        .source("2").target("3").count(2)
+
         .and();
   }
 

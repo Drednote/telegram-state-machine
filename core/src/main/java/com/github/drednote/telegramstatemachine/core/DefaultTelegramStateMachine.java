@@ -20,6 +20,7 @@ public class DefaultTelegramStateMachine<S> implements TelegramStateMachine<S> {
   @ToString.Exclude
   @Nullable
   private final Transition<S> next;
+  private final int stage;
 
   @Override
   public boolean isPrepared() {

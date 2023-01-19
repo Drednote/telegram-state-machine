@@ -4,8 +4,4 @@ import com.github.drednote.telegramstatemachine.core.transition.TransitionTelegr
 
 public interface SimpleTelegramStateMachineConfigurer<S> extends
     TransitionTelegramStateMachineConfigurer<S, SimpleTelegramStateMachineConfigurer<S>> {
-
-  SimpleTelegramStateMachineConfigurer<S> source(S source);
-
-  SimpleTelegramStateMachineConfigurer<S> target(S target);
 }

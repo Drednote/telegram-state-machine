@@ -6,6 +6,7 @@ import com.github.drednote.telegramstatemachine.core.TelegramStateMachine;
 import com.github.drednote.telegramstatemachine.core.TelegramStateMachineService;
 import com.github.drednote.telegramstatemachine.exception.transition.TransitionException;
 import com.github.drednote.telegramstatemachine.springstarter.config.Config;
+import com.github.drednote.telegramstatemachine.springstarter.config.Mock;
 import com.github.drednote.telegramstatemachine.springstarter.config.SqlTestContainerBase;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ class PostgresTelegramStateMachinePersisterTest extends SqlTestContainerBase {
   @Test
   void testOnUpdate() throws TransitionException {
     String id = "1";
-    Update update = createUpdate(Long.valueOf(id));
+    Update update = Mock.createCommandUpdate(Long.valueOf(id));
 
     service.start(id);
     TelegramStateMachine<String> machine = service.start(id);
@@ -36,28 +37,10 @@ class PostgresTelegramStateMachinePersisterTest extends SqlTestContainerBase {
     assertThat(machine.getState()).isEqualTo("2");
     TelegramStateMachine<String> start = service.start(id);
     assertThat(start.getState()).isEqualTo("2");
-  }
 
-  private Update createUpdate(Long id) {
-    String text = "/start";
-
-    User from = new User();
-    from.setId(id);
-
-    Message message = new Message();
-    message.setText(text);
-    message.setFrom(from);
-    message.setEntities(List.of(
-        MessageEntity.builder()
-            .text(text)
-            .type("bot_command")
-            .offset(0)
-            .length(text.length())
-            .build()
-    ));
-
-    Update update = new Update();
-    update.setMessage(message);
-    return update;
+    assertThat(service.transit(update)).isTrue();
+    assertThat(service.transit(update)).isTrue();
+    machine = service.start(id);
+    assertThat(machine.getState()).isEqualTo("3");
   }
 }

@@ -1,6 +1,5 @@
-package com.github.drednote.telegramstatemachine.core;
+package com.github.drednote.telegramstatemachine.api;
 
-import com.github.drednote.telegramstatemachine.core.response.HandlerResponse;
 import com.github.drednote.telegramstatemachine.exception.handler.HandlerException;
 import com.github.drednote.telegramstatemachine.message.Message;
 

@@ -11,21 +11,21 @@ public class DefaultTelegramStateMachineMonitor<S> implements TelegramStateMachi
     String id = monitorTransition.id();
     S from = monitorTransition.from();
     S to = monitorTransition.to();
-    log.info("For machine with id {} make transition from {} to {}", id, from, to);
+    log.info("For getMachine with id {} make transition from {} to {}", id, from, to);
   }
 
   @Override
   public void create(TelegramStateMachine<S> machine) {
-    log.info("Create new machine {}", machine);
+    log.info("Create new getMachine {}", machine);
   }
 
   @Override
   public void restore(TelegramStateMachine<S> machine) {
-    log.info("Restore machine {}", machine);
+    log.info("Restore getMachine {}", machine);
   }
 
   @Override
   public void prepare(TelegramStateMachine<S> machine) {
-    log.info("Prepare machine {}", machine);
+    log.info("Prepare getMachine {}", machine);
   }
 }

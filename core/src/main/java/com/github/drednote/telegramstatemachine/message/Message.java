@@ -9,4 +9,9 @@ public interface Message<S> {
   String id();
 
   Update origin();
+
+  /**
+   * @return current stage, or -1 if transition is unstaged
+   */
+  int stage();
 }

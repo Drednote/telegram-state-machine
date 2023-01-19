@@ -34,6 +34,7 @@ public class TelegramStateMachineSerializationService<S> extends
     public void write(Kryo kryo, Output output, TelegramStateMachine<S> object) {
       kryo.writeObject(output, object.getId());
       kryo.writeClassAndObject(output, object.getState());
+      kryo.writeObject(output, object.getStage());
     }
 
     @Override
@@ -42,7 +43,8 @@ public class TelegramStateMachineSerializationService<S> extends
         Class<TelegramStateMachine<S>> type) {
       String id = kryo.readObject(input, String.class);
       S state = ((S) kryo.readClassAndObject(input));
-      return new DefaultTelegramStateMachine<>(id, state, null);
+      int stage = kryo.readObject(input, Integer.class);
+      return new DefaultTelegramStateMachine<>(id, state, null, stage);
     }
   }
 }

@@ -2,8 +2,8 @@ package com.github.drednote.telegramstatemachine.springstarter.config;
 
 import com.github.drednote.telegramstatemachine.api.TelegramStateMachineAdapter;
 import com.github.drednote.telegramstatemachine.core.configurer.TelegramStateMachineConfigurer;
-import com.github.drednote.telegramstatemachine.core.transition.TelegramTransitionsStateMachineConfigurer;
 import com.github.drednote.telegramstatemachine.core.persist.TelegramStateMachinePersister;
+import com.github.drednote.telegramstatemachine.core.transition.TelegramTransitionsStateMachineConfigurer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.bots.AbsSender;
@@ -23,21 +23,14 @@ public class TestTelegramStateMachineAdapter implements TelegramStateMachineAdap
   public void onTransitions(TelegramTransitionsStateMachineConfigurer<String> configurer) {
     configurer.withSimple()
         .source("1").target("2")
-        .handler(text -> {
-          log.info("1 command -> " + text);
-          return absSender -> {
-          };
-        })
+        .handler(Mock.emptyAndLog())
         .matcher(update -> update.getMessage().isCommand())
 
-        .and().withSimple()
-        .source("2").target("3")
-        .handler(text -> {
-          log.info("2 command -> " + text);
-          return absSender -> {
-          };
-        })
+        .and().withMultiStage()
+        .handler(Mock.emptyAndLog())
         .matcher(update -> update.getMessage().isCommand())
+        .source("2").target("3").count(2)
+
         .and();
   }
 

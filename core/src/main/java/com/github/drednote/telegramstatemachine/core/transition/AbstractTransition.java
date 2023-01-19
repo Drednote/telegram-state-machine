@@ -1,8 +1,8 @@
 package com.github.drednote.telegramstatemachine.core.transition;
 
-import com.github.drednote.telegramstatemachine.core.UpdateTelegramHandler;
+import com.github.drednote.telegramstatemachine.api.UpdateTelegramHandler;
 import com.github.drednote.telegramstatemachine.core.error.ErrorTelegramHandler;
-import com.github.drednote.telegramstatemachine.core.response.HandlerResponse;
+import com.github.drednote.telegramstatemachine.api.HandlerResponse;
 import com.github.drednote.telegramstatemachine.exception.handler.HandlerException;
 import com.github.drednote.telegramstatemachine.matcher.Matcher;
 import com.github.drednote.telegramstatemachine.message.Message;

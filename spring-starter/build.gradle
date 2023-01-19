@@ -10,11 +10,6 @@ version = parent.version
 bootJar.enabled = false
 jar.enabled = true
 
-sourceJar {
-    from sourceSets.main.allJava
-    from project(':core').sourceSets.main.allJava
-}
-
 jar {
     from sourceSets.main.allJava
     from project(':core').sourceSets.main.allJava
@@ -26,10 +21,6 @@ jar {
                 .collect { zipTree(it) }
     }
     duplicatesStrategy DuplicatesStrategy.EXCLUDE
-}
-
-configurations {
-    notResolved.extendsFrom(implementation)
 }
 
 dependencies {
@@ -60,6 +51,8 @@ publishing {
 
             from components.java
             artifact sourceJar {
+                from sourceSets.main.allJava
+                from project(':core').sourceSets.main.allJava
                 classifier "sources"
             }
 

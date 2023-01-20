@@ -1,6 +1,7 @@
 package com.github.drednote.telegramstatemachine.core.persist;
 
 import com.github.drednote.telegramstatemachine.core.TelegramStateMachine;
+import com.github.drednote.telegramstatemachine.util.Assert;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -10,6 +11,7 @@ public class InMemoryTelegramStateMachinePersister<S> implements TelegramStateMa
 
   @Override
   public TelegramStateMachine<S> persist(TelegramStateMachine<S> stateMachine) {
+    Assert.notNull(stateMachine, "'statemachine' must not be null");
     machineMap.put(stateMachine.getId(), stateMachine);
     return get(stateMachine.getId());
   }

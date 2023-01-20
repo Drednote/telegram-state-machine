@@ -73,6 +73,8 @@ public abstract class DefaultTelegramStateMachineService<S> implements
   }
 
   protected TelegramStateMachine<S> internalStart(String id) {
+    Assert.notNull(id, "'id' must not be null");
+
     if (persister.contains(id)) {
       TelegramStateMachine<S> machine = persister.get(id);
       monitor.restore(machine);
@@ -85,6 +87,8 @@ public abstract class DefaultTelegramStateMachineService<S> implements
   }
 
   protected TelegramStateMachine<S> internalPrepare(Update update) throws TransitionException {
+    Assert.notNull(update, "'update' must not be null");
+
     String id = UpdateUtils.extractId(update);
     TelegramStateMachine<S> machine = persister.get(id);
     if (machine == null) {
@@ -107,6 +111,7 @@ public abstract class DefaultTelegramStateMachineService<S> implements
   }
 
   protected boolean internalTransit(Update update) {
+    Assert.notNull(update, "'update' must not be null");
     try {
       TelegramStateMachine<S> machine = internalPrepare(update);
       monitor.prepare(machine);

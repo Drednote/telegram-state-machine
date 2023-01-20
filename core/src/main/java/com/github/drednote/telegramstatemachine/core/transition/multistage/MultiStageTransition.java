@@ -15,7 +15,7 @@ public class MultiStageTransition<S> extends AbstractTransition<S> {
   @Getter
   private final S target;
 
-  public MultiStageTransition(
+  MultiStageTransition(
       S source, int count, S target, UpdateTelegramHandler<S> handler,
       ErrorTelegramHandler errorHandler, Matcher<Update> matcher
   ) {

@@ -1,5 +1,6 @@
 package com.github.drednote.telegramstatemachine.util.lock;
 
+import com.github.drednote.telegramstatemachine.util.Assert;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
@@ -31,6 +32,7 @@ public final class DefaultReadWriteKeyLock<K> implements ReadWriteKeyLock<K> {
 
     @SuppressWarnings("Duplicates")
     public void lock(K id, long timeout) throws InterruptedException, TimeoutException {
+      Assert.notNull(id, "'id' must not be null");
       synchronized (pool) {
         LocalDateTime dateTimeout = LocalDateTime.now().plus(timeout, ChronoUnit.MILLIS);
         while (pool.contains(id)) {
@@ -52,6 +54,7 @@ public final class DefaultReadWriteKeyLock<K> implements ReadWriteKeyLock<K> {
     }
 
     public void unlock(K id) {
+      Assert.notNull(id, "'id' must not be null");
       synchronized (pool) {
         pool.remove(id);
         pool.notifyAll();
@@ -63,6 +66,7 @@ public final class DefaultReadWriteKeyLock<K> implements ReadWriteKeyLock<K> {
 
     @SuppressWarnings("Duplicates")
     public void lock(K id, long timeout) throws InterruptedException, TimeoutException {
+      Assert.notNull(id, "'id' must not be null");
       if (pool.contains(id)) {
         synchronized (pool) {
           LocalDateTime dateTimeout = LocalDateTime.now().plus(timeout, ChronoUnit.MILLIS);

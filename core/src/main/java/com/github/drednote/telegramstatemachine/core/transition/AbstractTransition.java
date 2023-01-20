@@ -6,12 +6,13 @@ import com.github.drednote.telegramstatemachine.api.HandlerResponse;
 import com.github.drednote.telegramstatemachine.exception.handler.HandlerException;
 import com.github.drednote.telegramstatemachine.matcher.Matcher;
 import com.github.drednote.telegramstatemachine.message.Message;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class AbstractTransition<S> implements Transition<S> {
 
   protected final UpdateTelegramHandler<S> handler;

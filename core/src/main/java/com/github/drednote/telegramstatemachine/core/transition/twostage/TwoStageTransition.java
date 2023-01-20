@@ -15,7 +15,7 @@ public class TwoStageTransition<S> extends AbstractTransition<S> {
   @Getter
   private final S target;
 
-  public TwoStageTransition(
+  TwoStageTransition(
       S source, S dummy, S target, UpdateTelegramHandler<S> handler,
       ErrorTelegramHandler errorHandler, Matcher<Update> matcher
   ) {

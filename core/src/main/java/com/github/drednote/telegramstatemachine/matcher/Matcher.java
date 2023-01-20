@@ -19,4 +19,11 @@ public interface Matcher<T> {
     return t -> match(t) || other.match(t);
   }
 
+  default Matcher<T> nor(Matcher<? super T> other) {
+    if (other == null) {
+      throw new IllegalArgumentException("Other matcher must not be null");
+    }
+    return t -> match(t) && !other.match(t);
+  }
+
 }

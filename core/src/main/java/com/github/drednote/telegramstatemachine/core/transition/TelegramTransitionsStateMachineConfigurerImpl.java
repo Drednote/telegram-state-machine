@@ -7,6 +7,7 @@ import com.github.drednote.telegramstatemachine.core.transition.simple.SimpleTel
 import com.github.drednote.telegramstatemachine.core.transition.simple.SimpleTelegramStateMachineConfigurerImpl;
 import com.github.drednote.telegramstatemachine.core.transition.twostage.TwoStageTelegramStateMachineConfigurer;
 import com.github.drednote.telegramstatemachine.core.transition.twostage.TwoStageTelegramStateMachineConfigurerImpl;
+import com.github.drednote.telegramstatemachine.util.Assert;
 import java.util.Collection;
 import lombok.Getter;
 
@@ -20,6 +21,8 @@ public class TelegramTransitionsStateMachineConfigurerImpl<S> implements
   public TelegramTransitionsStateMachineConfigurerImpl(
       Collection<Transition<S>> transitions, ErrorTelegramHandler handler
   ) {
+    Assert.notNull(transitions, "'transitions' must not be null");
+    Assert.notNull(handler, "'errorHandler' must not be null");
     this.transitions = transitions;
     this.errorHandler = handler;
   }

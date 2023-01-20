@@ -13,7 +13,7 @@ public class SimpleTransition<S> extends AbstractTransition<S> {
   @Getter
   private final S target;
 
-  public SimpleTransition(
+  SimpleTransition(
       S source, S target, UpdateTelegramHandler<S> handler,
       ErrorTelegramHandler errorHandler, Matcher<Update> matcher
   ) {

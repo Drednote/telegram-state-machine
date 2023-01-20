@@ -1,16 +1,4 @@
-image: gradle:jdk17
-
-stages:
-  - build
-
-variables:
-  GRADLE_OPTS: >
-    -Dorg.gradle.daemon=false
-
-before_script:
-  - export GRADLE_USER_HOME=`pwd`/.gradle
-
 include:
   - project: 'mr_drednote/gitlab-ci/v1'
     file:
-      - 'stages/build.yml'
+      - 'library.yml'

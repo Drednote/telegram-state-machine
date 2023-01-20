@@ -7,8 +7,17 @@ import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+/**
+ * Интерфейс описывающий второй этап обработки евента, в котором отправляется ответ в бота
+ */
 public interface HandlerResponse extends Ordered {
 
+  /**
+   * Метод отправки
+   *
+   * @param absSender отправитель
+   * @throws TelegramApiException если не получилось отправить
+   */
   void process(AbsSender absSender) throws TelegramApiException;
 
   static HandlerResponse create(HandlerResponse... responses) {

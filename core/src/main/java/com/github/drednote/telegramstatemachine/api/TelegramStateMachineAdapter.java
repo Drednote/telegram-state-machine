@@ -4,6 +4,11 @@ import com.github.drednote.telegramstatemachine.core.configurer.TelegramStateMac
 import com.github.drednote.telegramstatemachine.core.transition.TelegramTransitionsStateMachineConfigurer;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
+/**
+ * Главный интерфейс через который настраивается стейт машина
+ *
+ * @param <S>
+ */
 public interface TelegramStateMachineAdapter<S> {
 
   default void onConfigure(TelegramStateMachineConfigurer<S> configurer) {

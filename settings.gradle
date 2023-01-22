@@ -1,1 +1,1 @@
-include "spring-starter", "core", "testing"
+include "spring-starter", "core", "spring-testing"

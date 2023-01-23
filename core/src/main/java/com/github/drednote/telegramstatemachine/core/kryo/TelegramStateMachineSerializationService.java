@@ -1,4 +1,4 @@
-package com.github.drednote.telegramstatemachine.springstarter.jpa.service;
+package com.github.drednote.telegramstatemachine.core.kryo;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Serializer;

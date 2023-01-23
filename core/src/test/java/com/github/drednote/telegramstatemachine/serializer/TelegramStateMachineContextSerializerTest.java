@@ -1,10 +1,10 @@
-package com.github.drednote.telegramstatemachine.springstarter.serializer;
+package com.github.drednote.telegramstatemachine.serializer;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import com.github.drednote.telegramstatemachine.core.DefaultTelegramStateMachine;
 import com.github.drednote.telegramstatemachine.core.TelegramStateMachine;
-import com.github.drednote.telegramstatemachine.springstarter.jpa.service.TelegramStateMachineSerializationService;
+import com.github.drednote.telegramstatemachine.core.kryo.TelegramStateMachineSerializationService;
 import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +14,8 @@ class TelegramStateMachineContextSerializerTest {
 
   @Test
   void name() throws IOException {
-    byte[] serialize = serializer.serialize(new DefaultTelegramStateMachine<>("1", State.I, null, -1));
+    byte[] serialize = serializer.serialize(
+        new DefaultTelegramStateMachine<>("1", State.I, null, -1));
     TelegramStateMachine<State> deserialize = serializer.deserialize(serialize);
     assertThat(serialize).isNotEmpty();
     assertThat(deserialize.getState()).isEqualTo(State.I);

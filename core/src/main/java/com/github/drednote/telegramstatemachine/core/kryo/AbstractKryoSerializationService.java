@@ -1,4 +1,4 @@
-package com.github.drednote.telegramstatemachine.springstarter.jpa.service;
+package com.github.drednote.telegramstatemachine.core.kryo;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
@@ -7,12 +7,11 @@ import com.esotericsoftware.kryo.pool.KryoCallback;
 import com.esotericsoftware.kryo.pool.KryoFactory;
 import com.esotericsoftware.kryo.pool.KryoPool;
 import com.github.drednote.telegramstatemachine.core.TelegramStateMachine;
+import com.github.drednote.telegramstatemachine.util.Assert;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import org.springframework.util.Assert;
-import org.springframework.util.ClassUtils;
 
 public abstract class AbstractKryoSerializationService<S> {
 
@@ -24,7 +23,7 @@ public abstract class AbstractKryoSerializationService<S> {
       // kryo is really getting trouble checking things if class loaders
       // doesn't match. for now just use below trick before we try
       // to go fully on beans and get a bean class loader.
-      kryo.setClassLoader(ClassUtils.getDefaultClassLoader());
+      kryo.setClassLoader(getDefaultClassLoader());
       configureKryoInstance(kryo);
       return kryo;
     };
@@ -95,5 +94,27 @@ public abstract class AbstractKryoSerializationService<S> {
         : new Input(inputStream))) {
       return this.pool.run(kryo -> doDecode(kryo, input, type));
     }
+  }
+
+  private static ClassLoader getDefaultClassLoader() {
+    ClassLoader cl = null;
+    try {
+      cl = Thread.currentThread().getContextClassLoader();
+    } catch (Throwable ex) {
+      // Cannot access thread context ClassLoader - falling back...
+    }
+    if (cl == null) {
+      // No thread context class loader -> use class loader of this class.
+      cl = AbstractKryoSerializationService.class.getClassLoader();
+      if (cl == null) {
+        // getClassLoader() returning null indicates the bootstrap ClassLoader
+        try {
+          cl = ClassLoader.getSystemClassLoader();
+        } catch (Throwable ex) {
+          // Cannot access system ClassLoader - oh well, maybe the caller can live with null...
+        }
+      }
+    }
+    return cl;
   }
 }

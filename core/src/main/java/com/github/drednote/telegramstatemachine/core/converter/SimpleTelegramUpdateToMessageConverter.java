@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @RequiredArgsConstructor
-public class DefaultTelegramUpdateToMessageConverter<S> implements
+public class SimpleTelegramUpdateToMessageConverter<S> implements
     TelegramUpdateToMessageConverter<S> {
 
   @Override

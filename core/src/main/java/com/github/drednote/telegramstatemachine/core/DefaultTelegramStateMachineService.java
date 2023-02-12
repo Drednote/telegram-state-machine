@@ -5,12 +5,12 @@ import com.github.drednote.telegramstatemachine.api.TelegramStateMachineAdapter;
 import com.github.drednote.telegramstatemachine.core.configurer.TelegramStateMachineConfigurerImpl;
 import com.github.drednote.telegramstatemachine.core.context.TransitionContext;
 import com.github.drednote.telegramstatemachine.core.context.TransitionContextImpl;
-import com.github.drednote.telegramstatemachine.core.converter.DefaultTelegramUpdateToMessageConverter;
+import com.github.drednote.telegramstatemachine.core.converter.SimpleTelegramUpdateToMessageConverter;
 import com.github.drednote.telegramstatemachine.core.converter.TelegramUpdateToMessageConverter;
-import com.github.drednote.telegramstatemachine.core.error.DefaultErrorTelegramHandler;
+import com.github.drednote.telegramstatemachine.core.error.LoggingErrorTelegramHandler;
 import com.github.drednote.telegramstatemachine.core.error.ErrorTelegramHandler;
 import com.github.drednote.telegramstatemachine.core.monitor.DefaultMonitorTransition;
-import com.github.drednote.telegramstatemachine.core.monitor.DefaultTelegramStateMachineMonitor;
+import com.github.drednote.telegramstatemachine.core.monitor.LoggingTelegramStateMachineMonitor;
 import com.github.drednote.telegramstatemachine.core.monitor.TelegramStateMachineMonitor;
 import com.github.drednote.telegramstatemachine.core.persist.InMemoryTelegramStateMachinePersister;
 import com.github.drednote.telegramstatemachine.core.persist.TelegramStateMachinePersister;
@@ -63,11 +63,11 @@ public abstract class DefaultTelegramStateMachineService<S> implements
     this.persister = Objects.requireNonNullElse(configurer.getPersister(),
         new InMemoryTelegramStateMachinePersister<>());
     this.monitor = Objects.requireNonNullElse(configurer.getMonitor(),
-        new DefaultTelegramStateMachineMonitor<>());
+        new LoggingTelegramStateMachineMonitor<>());
     this.errorHandler = Objects.requireNonNullElse(configurer.getErrorHandler(),
-        new DefaultErrorTelegramHandler());
+        new LoggingErrorTelegramHandler());
     this.converter = Objects.requireNonNullElse(configurer.getConverter(),
-        new DefaultTelegramUpdateToMessageConverter<>());
+        new SimpleTelegramUpdateToMessageConverter<>());
 
     this.transitions = collectConfigs();
   }
@@ -119,7 +119,7 @@ public abstract class DefaultTelegramStateMachineService<S> implements
       determineTransition(update, machine, next);
       return true;
     } catch (TransitionException e) {
-      log.warn("Cannot change status cause: ", e);
+      errorHandler.onTransitionError(e, absSender);
     }
     return false;
   }

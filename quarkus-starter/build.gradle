@@ -1,5 +1,5 @@
 plugins {
-    id 'io.quarkus' version '3.0.0.Alpha3'
+    id 'io.quarkus' version '2.16.0.Final'
 }
 
 archivesBaseName = 'telegram-state-machine-quarkus-starter'
@@ -28,7 +28,7 @@ jar {
 
 dependencies {
     implementation(project(":core"))
-    implementation platform("io.quarkus.platform:quarkus-bom:3.0.0.Alpha3")
+    implementation platform("io.quarkus.platform:quarkus-bom:2.16.0.Final")
 
     api 'io.quarkus:quarkus-hibernate-orm-panache'
     api 'io.quarkus:quarkus-jdbc-postgresql'

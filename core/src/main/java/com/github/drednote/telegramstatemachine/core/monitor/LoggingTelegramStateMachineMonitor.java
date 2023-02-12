@@ -4,7 +4,7 @@ import com.github.drednote.telegramstatemachine.core.TelegramStateMachine;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class DefaultTelegramStateMachineMonitor<S> implements TelegramStateMachineMonitor<S> {
+public class LoggingTelegramStateMachineMonitor<S> implements TelegramStateMachineMonitor<S> {
 
   @Override
   public void transition(MonitorTransition<S> monitorTransition) {

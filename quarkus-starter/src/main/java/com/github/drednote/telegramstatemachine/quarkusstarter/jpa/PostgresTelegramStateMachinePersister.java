@@ -3,10 +3,9 @@ package com.github.drednote.telegramstatemachine.quarkusstarter.jpa;
 import com.github.drednote.telegramstatemachine.core.TelegramStateMachine;
 import com.github.drednote.telegramstatemachine.core.kryo.TelegramStateMachineSerializationService;
 import com.github.drednote.telegramstatemachine.core.persist.TelegramStateMachinePersister;
-import jakarta.transaction.Transactional;
-import jakarta.transaction.Transactional.TxType;
+import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 
 @Transactional(TxType.REQUIRED)
 public class PostgresTelegramStateMachinePersister<S> implements TelegramStateMachinePersister<S> {

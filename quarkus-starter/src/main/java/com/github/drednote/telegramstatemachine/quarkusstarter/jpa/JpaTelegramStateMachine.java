@@ -1,9 +1,9 @@
 package com.github.drednote.telegramstatemachine.quarkusstarter.jpa;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

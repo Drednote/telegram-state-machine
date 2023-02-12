@@ -4,9 +4,9 @@ import com.github.drednote.telegramstatemachine.api.TelegramStateMachineAdapter;
 import com.github.drednote.telegramstatemachine.core.ConcurrentTelegramStateMachineService;
 import com.github.drednote.telegramstatemachine.core.TelegramStateMachineService;
 import io.quarkus.arc.DefaultBean;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.Produces;
-import jakarta.inject.Singleton;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Produces;
+import javax.inject.Singleton;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
 @ApplicationScoped

@@ -1,9 +1,10 @@
 package com.github.drednote.telegramstatemachine.core.transition;
 
+import com.github.drednote.telegramstatemachine.api.HandlerResponse;
 import com.github.drednote.telegramstatemachine.api.UpdateTelegramHandler;
 import com.github.drednote.telegramstatemachine.core.error.ErrorTelegramHandler;
-import com.github.drednote.telegramstatemachine.api.HandlerResponse;
 import com.github.drednote.telegramstatemachine.exception.handler.HandlerException;
+import com.github.drednote.telegramstatemachine.exception.transition.TransitionException;
 import com.github.drednote.telegramstatemachine.matcher.Matcher;
 import com.github.drednote.telegramstatemachine.message.Message;
 import lombok.AccessLevel;
@@ -37,5 +38,10 @@ public abstract class AbstractTransition<S> implements Transition<S> {
   @Override
   public void onHandleError(HandlerException exception, AbsSender absSender) {
     errorHandler.onHandleError(exception, absSender);
+  }
+
+  @Override
+  public void onTransitionError(TransitionException exception, AbsSender absSender) {
+    errorHandler.onTransitionError(exception, absSender);
   }
 }

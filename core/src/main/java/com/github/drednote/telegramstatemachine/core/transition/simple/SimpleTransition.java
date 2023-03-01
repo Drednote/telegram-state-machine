@@ -10,7 +10,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class SimpleTransition<S> extends AbstractTransition<S> {
 
   private final S source;
-  @Getter
   private final S target;
 
   SimpleTransition(
@@ -25,5 +24,10 @@ public class SimpleTransition<S> extends AbstractTransition<S> {
   @Override
   public S source() {
     return source;
+  }
+
+  @Override
+  public S target() {
+    return target;
   }
 }

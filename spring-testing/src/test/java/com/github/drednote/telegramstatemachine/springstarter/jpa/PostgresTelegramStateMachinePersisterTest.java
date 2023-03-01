@@ -31,15 +31,15 @@ class PostgresTelegramStateMachinePersisterTest extends SqlTestContainerBase {
     service.start(id);
     TelegramStateMachine<String> machine = service.start(id);
     assertThat(machine.getState()).isEqualTo("1");
-    boolean result = service.transit(update);
+    boolean result = service.transit(id, update);
     assertThat(result).isTrue();
     machine = service.start(id);
     assertThat(machine.getState()).isEqualTo("2");
     TelegramStateMachine<String> start = service.start(id);
     assertThat(start.getState()).isEqualTo("2");
 
-    assertThat(service.transit(update)).isTrue();
-    assertThat(service.transit(update)).isTrue();
+    assertThat(service.transit(id, update)).isTrue();
+    assertThat(service.transit(id, update)).isTrue();
     machine = service.start(id);
     assertThat(machine.getState()).isEqualTo("3");
   }

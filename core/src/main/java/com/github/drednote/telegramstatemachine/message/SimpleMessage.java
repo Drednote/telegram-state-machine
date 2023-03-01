@@ -1,6 +1,7 @@
 package com.github.drednote.telegramstatemachine.message;
 
-import com.github.drednote.telegramstatemachine.util.UpdateUtils;
+import java.util.Optional;
+import javax.annotation.Nullable;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -11,9 +12,11 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @RequiredArgsConstructor
 public class SimpleMessage<S> implements Message<S> {
 
-  private final Update update;
+  private final String id;
   private final S state;
   private final int stage;
+  @Nullable
+  private final Update update;
 
   @Override
   public S state() {
@@ -22,12 +25,12 @@ public class SimpleMessage<S> implements Message<S> {
 
   @Override
   public String id() {
-    return UpdateUtils.extractId(update);
+    return id;
   }
 
   @Override
-  public Update origin() {
-    return update;
+  public Optional<Update> origin() {
+    return Optional.ofNullable(update);
   }
 
   @Override

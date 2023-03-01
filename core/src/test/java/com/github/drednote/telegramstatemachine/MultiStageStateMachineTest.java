@@ -19,12 +19,13 @@ class MultiStageStateMachineTest {
 
   @Test
   void name() throws TransitionException {
-    service.start("1");
+    String id = "1";
+    service.start(id);
     Update update = Mock.createCommandUpdate(1L);
-    assertThat(service.transit(update)).isTrue(); // 2_0
-    assertThat(service.transit(update)).isTrue(); // 2_1
-    assertThat(service.transit(update)).isTrue(); // 3
-    var machine = service.start("1");
+    assertThat(service.transit(id, update)).isTrue(); // 2_0
+    assertThat(service.transit(id, update)).isTrue(); // 2_1
+    assertThat(service.transit(id, update)).isTrue(); // 3
+    var machine = service.start(id);
     assertThat(machine.getState()).isEqualTo("3");
   }
 }

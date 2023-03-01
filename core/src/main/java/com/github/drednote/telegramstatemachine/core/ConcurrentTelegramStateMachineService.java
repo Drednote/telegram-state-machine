@@ -3,7 +3,6 @@ package com.github.drednote.telegramstatemachine.core;
 import com.github.drednote.telegramstatemachine.api.TelegramStateMachineAdapter;
 import com.github.drednote.telegramstatemachine.exception.transition.InternalTransitionException;
 import com.github.drednote.telegramstatemachine.exception.transition.TransitionException;
-import com.github.drednote.telegramstatemachine.util.UpdateUtils;
 import com.github.drednote.telegramstatemachine.util.lock.ReadWriteKeyLock;
 import java.util.concurrent.TimeoutException;
 import lombok.extern.slf4j.Slf4j;
@@ -39,11 +38,10 @@ public class ConcurrentTelegramStateMachineService<S> extends
   }
 
   @Override
-  public TelegramStateMachine<S> prepare(Update update) throws TransitionException {
-    String id = UpdateUtils.extractId(update);
+  public TelegramStateMachine<S> prepare(String id, Update update) throws TransitionException {
     try {
       lock.read().lock(id, timeout);
-      return super.internalPrepare(update);
+      return super.internalPrepare(id, update);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw new InternalTransitionException("Cannot prepare telegram state machine", e);
@@ -55,11 +53,25 @@ public class ConcurrentTelegramStateMachineService<S> extends
   }
 
   @Override
-  public boolean transit(Update update) {
-    String id = UpdateUtils.extractId(update);
+  public boolean transit(String id, Update update) {
     try {
       lock.write().lock(id, timeout);
-      return super.internalTransit(update);
+      return super.internalTransit(id, update);
+    } catch (TimeoutException e) {
+      log.warn("Cannot change status cause: ", e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    } finally {
+      lock.write().unlock(id);
+    }
+    return false;
+  }
+
+  @Override
+  public boolean transit(String id, S state) {
+    try {
+      lock.write().lock(id, timeout);
+      return super.internalTransit(id, state);
     } catch (TimeoutException e) {
       log.warn("Cannot change status cause: ", e);
     } catch (InterruptedException e) {

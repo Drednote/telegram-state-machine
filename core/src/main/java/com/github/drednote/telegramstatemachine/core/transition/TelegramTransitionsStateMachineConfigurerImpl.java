@@ -5,8 +5,6 @@ import com.github.drednote.telegramstatemachine.core.transition.multistage.Multi
 import com.github.drednote.telegramstatemachine.core.transition.multistage.MultiStageTelegramStateMachineConfigurerImpl;
 import com.github.drednote.telegramstatemachine.core.transition.simple.SimpleTelegramStateMachineConfigurer;
 import com.github.drednote.telegramstatemachine.core.transition.simple.SimpleTelegramStateMachineConfigurerImpl;
-import com.github.drednote.telegramstatemachine.core.transition.twostage.TwoStageTelegramStateMachineConfigurer;
-import com.github.drednote.telegramstatemachine.core.transition.twostage.TwoStageTelegramStateMachineConfigurerImpl;
 import com.github.drednote.telegramstatemachine.util.Assert;
 import java.util.Collection;
 import lombok.Getter;
@@ -30,11 +28,6 @@ public class TelegramTransitionsStateMachineConfigurerImpl<S> implements
   @Override
   public SimpleTelegramStateMachineConfigurer<S> withSimple() {
     return new SimpleTelegramStateMachineConfigurerImpl<>(transitions, errorHandler);
-  }
-
-  @Override
-  public TwoStageTelegramStateMachineConfigurer<S> withTwoStage() {
-    return new TwoStageTelegramStateMachineConfigurerImpl<>(transitions, errorHandler);
   }
 
   @Override

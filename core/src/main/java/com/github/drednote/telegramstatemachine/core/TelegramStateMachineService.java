@@ -12,7 +12,9 @@ public interface TelegramStateMachineService<S> {
    * Doesn't affect on persisted statemachine
    */
   @Nullable
-  TelegramStateMachine<S> prepare(Update update) throws TransitionException;
+  TelegramStateMachine<S> prepare(String id, Update update) throws TransitionException;
 
-  boolean transit(Update update);
+  boolean transit(String id, Update update);
+
+  boolean transit(String id, S state);
 }

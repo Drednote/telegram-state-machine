@@ -33,7 +33,7 @@ class StateMachineTest {
     service.start(id);
     TelegramStateMachine<String> machine = service.start(id);
     assertThat(machine.getState()).isEqualTo("1");
-    boolean result = service.transit(update);
+    boolean result = service.transit(id, update);
     assertThat(result).isTrue();
     machine = service.start(id);
     assertThat(machine.getState()).isEqualTo("2");
@@ -55,7 +55,7 @@ class StateMachineTest {
       } catch (TransitionException e) {
         fail("Something went wrong", e);
       }
-      service.transit(update);
+      service.transit(id, update);
     });
     CompletableFuture<Void> second = CompletableFuture.runAsync(() -> {
       try {
@@ -65,7 +65,7 @@ class StateMachineTest {
       } catch (TransitionException e) {
         fail("Something went wrong", e);
       }
-      service.transit(update);
+      service.transit(id, update);
     });
     CompletableFuture.allOf(first, second).get();
     TelegramStateMachine<String> machine = service.start(id);

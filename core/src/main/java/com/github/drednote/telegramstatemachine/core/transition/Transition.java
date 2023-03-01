@@ -10,6 +10,8 @@ public interface Transition<S> extends ErrorTelegramHandler {
 
   S source();
 
+  S target();
+
   HandlerResponse handle(Message<S> update) throws HandlerException;
 
   boolean matches(Update update);

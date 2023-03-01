@@ -12,7 +12,6 @@ public class MultiStageTransition<S> extends AbstractTransition<S> {
   private final S source;
   @Getter
   private final int count;
-  @Getter
   private final S target;
 
   MultiStageTransition(
@@ -28,5 +27,10 @@ public class MultiStageTransition<S> extends AbstractTransition<S> {
   @Override
   public S source() {
     return source;
+  }
+
+  @Override
+  public S target() {
+    return target;
   }
 }

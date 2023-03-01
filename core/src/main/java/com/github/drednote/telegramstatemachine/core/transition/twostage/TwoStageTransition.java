@@ -7,6 +7,11 @@ import com.github.drednote.telegramstatemachine.matcher.Matcher;
 import lombok.Getter;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+/**
+ * unused
+ *
+ * @param <S>
+ */
 public class TwoStageTransition<S> extends AbstractTransition<S> {
 
   private final S source;
@@ -28,5 +33,10 @@ public class TwoStageTransition<S> extends AbstractTransition<S> {
   @Override
   public S source() {
     return source;
+  }
+
+  @Override
+  public S target() {
+    throw new UnsupportedOperationException();
   }
 }

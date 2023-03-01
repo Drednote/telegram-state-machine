@@ -1,5 +1,6 @@
 package com.github.drednote.telegramstatemachine.message;
 
+import java.util.Optional;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 public interface Message<S> {
@@ -8,7 +9,7 @@ public interface Message<S> {
 
   String id();
 
-  Update origin();
+  Optional<Update> origin();
 
   /**
    * @return current stage, or -1 if transition is unstaged

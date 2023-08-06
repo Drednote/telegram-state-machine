@@ -14,7 +14,8 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 'zulu@17'
+          distribution: 'adopt'
+          java-version: '17'
 
       - name: Grant execute permission for Gradle wrapper
         run: chmod +x ./gradlew
